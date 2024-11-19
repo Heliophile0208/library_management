@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost
--- Thời gian đã tạo: Th10 16, 2024 lúc 10:24 PM
+-- Thời gian đã tạo: Th10 19, 2024 lúc 09:49 PM
 -- Phiên bản máy phục vụ: 5.7.34
 -- Phiên bản PHP: 8.2.6
 
@@ -110,9 +110,9 @@ CREATE TABLE `Books` (
 --
 
 INSERT INTO `Books` (`BookID`, `Title`, `Language`, `Publisher`, `Quantity`, `ISBN`, `Status`, `AuthorID`, `SupplierID`, `GenreID`) VALUES
-(1, 'The Secret Garden', 'Vietnamese', 'Tre Publishing House', 50, '978-3-16-148410-0', 'Available', 1, 1, 1),
+(1, 'The Secret Garden', 'Vietnamese', 'Tre Publishing House', 49, '978-3-16-148410-0', 'Available', 1, 1, 1),
 (2, 'Animal Farm', 'English', 'Secker & Warburg', 15, '978-0-452-28424-1', 'Available', 7, 1, 1),
-(3, 'Go Set a Watchman', 'English', 'HarperCollins', 10, '978-0-06-240985-0', 'Available', 2, 2, 1),
+(3, 'Go Set a Watchman', 'English', 'HarperCollins', 9, '978-0-06-240985-0', 'Available', 2, 2, 1),
 (4, 'The Secret Garden 2', 'Vietnamese', 'Tre Publishing House', 100, '978-3-16-148410-0', 'Available', 1, 1, 1),
 (5, 'Harry Potter and the Chamber of Secrets', 'English', 'Bloomsbury', 20, '978-0-7475-3849-9', 'Available', 3, 2, 4),
 (6, 'Harry Potter and the Chammber of Secrets', 'Vietnamese', 'Kim Dong Publishing House', 8, '978-0-545-01022-1', 'Available', 3, 2, 5),
@@ -122,7 +122,7 @@ INSERT INTO `Books` (`BookID`, `Title`, `Language`, `Publisher`, `Quantity`, `IS
 (11, 'The Great Gatsby', 'English', 'Scribner', 10, '978-0-7432-7356-6', 'Available', 8, 1, 1),
 (12, 'Brave New World', 'English', 'Chatto & Windus', 50, '978-0-06-085052-4', 'Available', 6, 2, 5),
 (13, 'The Alchemist', 'English', 'HarperCollins', 20, '978-0-06-231500-7', 'Available', 12, 2, 4),
-(14, 'The Great Gatsby', 'English', 'Scribner', 10, '978-0743273565', 'Available', 1, NULL, NULL),
+(14, 'The Great Gatsby', 'English', 'Scribner', 9, '978-0743273565', 'Available', 1, NULL, NULL),
 (15, 'To Kill a Mockingbird', 'English', 'J.B. Lippincott & Co.', 5, '978-0061120084', 'Available', 2, NULL, NULL),
 (16, '1984', 'English', 'Secker & Warburg', 8, '978-0451524935', 'Available', 3, NULL, NULL),
 (17, 'Pride and Prejudice', 'English', 'CreateSpace Independent Publishing Platform', 4, '978-1503290563', 'Available', 4, NULL, NULL),
@@ -134,7 +134,7 @@ INSERT INTO `Books` (`BookID`, `Title`, `Language`, `Publisher`, `Quantity`, `IS
 (23, 'Fahrenheit 451', 'English', 'Simon & Schuster', 10, '978-1451673319', 'Available', 10, NULL, NULL),
 (24, 'Animal Farm', 'English', 'Secker & Warburg', 12, '978-0451526340', 'Available', 11, NULL, NULL),
 (25, '1984', 'English', 'Secker & Warburg', 8, '978-0451524935', 'Available', 12, NULL, NULL),
-(26, 'The Great Gatsby', 'English', 'Scribner', 4, '978-0743273565', 'Available', 13, NULL, NULL),
+(26, 'The Great Gatsby', 'English', 'Scribner', 24, '978-0743273565', 'Available', 13, NULL, NULL),
 (27, 'Moby Dick', 'English', 'CreateSpace Independent Publishing Platform', 3, '978-1503280786', 'Available', 14, NULL, NULL),
 (28, 'To Kill a Mockingbird', 'English', 'HarperCollins', 6, '978-0061120084', 'Available', 15, NULL, NULL),
 (29, 'War and Peace', 'English', 'Independently published', 2, '978-1420952460', 'Available', 16, NULL, NULL);
@@ -204,13 +204,6 @@ CREATE TRIGGER `UpdateInventoryOnBookUpdate` AFTER UPDATE ON `Books` FOR EACH RO
 END
 $$
 DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `trg_after_book_insert` AFTER INSERT ON `Books` FOR EACH ROW BEGIN
-    INSERT INTO Inventory (BookID, QuantityInStock, ReorderLevel, LastUpdated)
-    VALUES (NEW.BookID, NEW.Quantity, 10, NOW());  -- 10 là mức ReorderLevel mặc định
-END
-$$
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -259,7 +252,7 @@ CREATE TABLE `Inventory` (
 --
 
 INSERT INTO `Inventory` (`InventoryID`, `BookID`, `QuantityInStock`, `ReorderLevel`, `LastUpdated`) VALUES
-(59, 26, 4, 10, '2024-10-17 00:00:00'),
+(59, 26, 44, 5, '2024-11-19 21:31:37'),
 (58, 25, 8, 10, '2024-10-17 00:00:00'),
 (57, 24, 12, 10, '2024-10-17 00:00:00'),
 (56, 23, 11, 10, '2024-10-17 00:00:00'),
@@ -271,21 +264,19 @@ INSERT INTO `Inventory` (`InventoryID`, `BookID`, `QuantityInStock`, `ReorderLev
 (50, 17, 4, 10, '2024-10-17 00:00:00'),
 (49, 16, 8, 10, '2024-10-17 00:00:00'),
 (48, 15, 5, 10, '2024-10-17 00:00:00'),
-(47, 14, 10, 10, '2024-10-17 00:00:00'),
+(47, 14, 10, 10, '2024-10-18 23:21:13'),
 (46, 13, 21, 10, '2024-10-17 00:00:00'),
 (45, 12, 50, 10, '2024-10-17 00:00:00'),
 (44, 11, 10, 10, '2024-10-17 00:00:00'),
 (43, 10, 7, 10, '2024-10-17 00:00:00'),
-(42, 9, NULL, 10, '2024-10-17 00:00:00'),
 (41, 8, 15, 10, '2024-10-17 00:00:00'),
 (40, 7, 11, 10, '2024-10-17 00:00:00'),
 (4, 6, 10, 9, '2024-10-29 02:50:24'),
 (5, 5, 21, 9, '2024-10-13 02:52:51'),
-(60, 1, 51, 10, NULL),
-(1, 4, 100, NULL, '2024-10-29 02:50:24'),
-(39, 3, 11, NULL, '2024-10-09 02:51:20'),
-(38, 2, 18, NULL, '2024-10-29 02:50:24'),
-(37, 1, 51, NULL, '2024-10-17 03:15:58');
+(60, 1, 51, 10, '2024-10-18 23:51:58'),
+(1, 4, 100, 10, '2024-11-19 21:44:06'),
+(39, 3, 11, NULL, '2024-10-18 23:51:58'),
+(38, 2, 20, 5, '2024-11-19 21:40:43');
 
 -- --------------------------------------------------------
 
@@ -306,7 +297,7 @@ CREATE TABLE `Inventory_Transactions` (
 --
 
 INSERT INTO `Inventory_Transactions` (`TransactionID`, `BookID`, `Quantity`, `TransactionType`, `TransactionDate`) VALUES
-(1, 1, 20, 'Import', '2024-10-17 03:15:58');
+(1, 1, 30, 'Import', '2024-11-20 00:00:00');
 
 --
 -- Bẫy `Inventory_Transactions`
@@ -326,21 +317,13 @@ END
 $$
 DELIMITER ;
 DELIMITER $$
-CREATE TRIGGER `UpdateInventoryOnTransaction` AFTER INSERT ON `Inventory_Transactions` FOR EACH ROW BEGIN
-    UPDATE Inventory
-    SET QuantityInStock = QuantityInStock + NEW.Quantity
-    WHERE BookID = NEW.BookID;
-END
-$$
-DELIMITER ;
-DELIMITER $$
 CREATE TRIGGER `trg_after_transaction_insert` AFTER INSERT ON `Inventory_Transactions` FOR EACH ROW BEGIN
-    IF NEW.TransactionType = 'Nhập' THEN
+    IF NEW.TransactionType = 'Import' THEN
         UPDATE Inventory
         SET QuantityInStock = QuantityInStock + NEW.Quantity,
             LastUpdated = NOW()
         WHERE BookID = NEW.BookID;
-    ELSEIF NEW.TransactionType = 'Xuất' THEN
+    ELSEIF NEW.TransactionType = 'Export' THEN
         UPDATE Inventory
         SET QuantityInStock = QuantityInStock - NEW.Quantity,
             LastUpdated = NOW()
@@ -405,7 +388,7 @@ CREATE TABLE `Loans` (
 
 INSERT INTO `Loans` (`LoanID`, `ReaderID`, `BookID`, `LoanDate`, `ReturnDate`, `DueDate`, `Status`) VALUES
 (1, 1, 1, '2024-10-01 10:00:00', '2024-10-17 02:33:26', '2024-10-15 10:00:00', 'Active'),
-(2, 1, 2, '2024-10-06 10:00:00', NULL, '2024-10-16 10:00:00', 'Active'),
+(2, 1, 2, '2024-10-06 10:00:00', '2024-10-19 00:16:44', '2024-10-16 10:00:00', 'Active'),
 (3, 2, 3, '2024-10-03 10:00:00', '2024-10-17 01:55:14', '2024-10-14 10:00:00', 'Active'),
 (4, 1, 1, '2024-10-01 10:00:00', '2024-10-16 23:02:48', '2024-10-15 10:00:00', 'Active'),
 (5, 1, 2, '2024-10-02 10:00:00', '2024-10-16 23:45:07', '2024-10-16 10:00:00', 'Active'),
@@ -443,9 +426,10 @@ INSERT INTO `Loans` (`LoanID`, `ReaderID`, `BookID`, `LoanDate`, `ReturnDate`, `
 (37, 104, 16, '2024-10-14 21:18:21', '2024-10-14 21:21:18', '2025-01-12 21:18:21', NULL),
 (38, 106, 22, '2024-10-16 21:57:46', NULL, '2024-11-15 21:57:46', NULL),
 (39, 106, 23, '2024-10-16 21:57:46', NULL, '2024-11-15 21:57:46', NULL),
-(40, 107, 3, '2024-10-16 22:08:03', NULL, '2024-11-15 22:08:03', NULL),
-(41, 107, 22, '2024-10-16 22:08:03', NULL, '2024-11-15 22:08:03', NULL),
-(42, 1, 13, '2024-10-16 23:57:18', '2024-10-17 01:21:03', '2025-01-14 23:57:18', NULL);
+(42, 1, 13, '2024-10-16 23:57:18', '2024-10-17 01:21:03', '2025-01-14 23:57:18', NULL),
+(43, 1, 14, '2024-10-18 23:21:13', NULL, '2025-01-16 23:21:13', NULL),
+(44, 1, 1, '2024-10-18 23:51:58', NULL, '2025-01-16 23:51:58', NULL),
+(45, 1, 3, '2024-10-18 23:51:58', NULL, '2025-01-16 23:51:58', NULL);
 
 --
 -- Bẫy `Loans`
@@ -762,7 +746,7 @@ ALTER TABLE `Inventory`
 -- AUTO_INCREMENT cho bảng `Inventory_Transactions`
 --
 ALTER TABLE `Inventory_Transactions`
-  MODIFY `TransactionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `TransactionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `LibraryCards`
@@ -774,7 +758,7 @@ ALTER TABLE `LibraryCards`
 -- AUTO_INCREMENT cho bảng `Loans`
 --
 ALTER TABLE `Loans`
-  MODIFY `LoanID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `LoanID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT cho bảng `Prices`
